@@ -75,6 +75,9 @@ namespace PDFSaverLibrary
         {
             if (!_queue.Contains(file))
                 _queue.Add(file);
+            else
+                OnQueueUpdated(false, $"Het bestand: {file.Name}" +
+                    " staat al in de queue");
         }
 
         private void RemoveFromQueue(FileInfo file)
