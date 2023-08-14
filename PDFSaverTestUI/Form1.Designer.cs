@@ -28,12 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            listView1 = new ListView();
+            chPath = new ColumnHeader();
+            chName = new ColumnHeader();
+            SuspendLayout();
+            // 
+            // listView1
+            // 
+            listView1.AllowDrop = true;
+            listView1.Columns.AddRange(new ColumnHeader[] { chPath, chName });
+            listView1.FullRowSelect = true;
+            listView1.GridLines = true;
+            listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            listView1.Location = new Point(12, 226);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(704, 212);
+            listView1.TabIndex = 0;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.Details;
+            // 
+            // chPath
+            // 
+            chPath.Text = "Bestandslocatie";
+            chPath.Width = 500;
+            // 
+            // chName
+            // 
+            chName.Text = "Bestandsnaam";
+            chName.Width = 200;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(728, 450);
+            Controls.Add(listView1);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private ListView listView1;
+        private ColumnHeader chPath;
+        private ColumnHeader chName;
     }
 }
