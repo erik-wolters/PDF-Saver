@@ -103,8 +103,6 @@ namespace PDFSaverLibrary
 
         public void AddToQueue(FileInfo file)
         {
-            OnConverted(false, $"Detected file extension: {file.Extension}");
-
             if(!file.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase) &&  !file.Extension.Equals(".doc", StringComparison.OrdinalIgnoreCase))
             {
                 OnQueueUpdated(false, $"Het bestand {file.Name} kan niet " +
@@ -124,7 +122,6 @@ namespace PDFSaverLibrary
             _queue.Add(file.FullName);
             OnQueueUpdated(true, $"Het bestand {file.Name} is toegevoegd " +
                 $"aan de queue");
-
         }
 
         public void RemoveFromQueue(FileInfo file)
