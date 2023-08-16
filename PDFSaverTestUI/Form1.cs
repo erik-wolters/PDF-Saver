@@ -52,8 +52,10 @@ namespace PDFSaverTestUI
         {
             listView1.Items.Clear();
 
-            foreach (FileInfo fileInfo in _converter.GetQueue())
+            foreach (string file in _converter.GetQueue())
             {
+                FileInfo fileInfo = new FileInfo(file);
+
                 ListViewItem lvi = new ListViewItem(new string[] {
                         Directory.GetParent(fileInfo.FullName)!.ToString(),
                         fileInfo.Name
@@ -71,7 +73,7 @@ namespace PDFSaverTestUI
 
         private void AddLog(string message)
         {
-            txtLog.Text += $"{message}{Environment.NewLine}";
+            txtLog.AppendText($"{message}{Environment.NewLine}");
         }
 
         private void btnTest_Click(object sender, EventArgs e)
@@ -95,6 +97,40 @@ namespace PDFSaverTestUI
         private void txtOutputDir_TextChanged(object sender, EventArgs e)
         {
             _converter.SetOutputDir(txtOutputDir.Text);
+        }
+
+        private void btnAddFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new())
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(
+                    Environment.SpecialFolder.UserProfile
+                    );
+
+                ofd.Filter = "Word bestanden (*.docx)|*.docx|Oude Word bestanden (*.doc)|*.doc";
+
+                ofd.RestoreDirectory = true;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    FileInfo fileInfo = new FileInfo(ofd.FileName);
+
+                    _converter.AddToQueue(fileInfo);
+                    UpdateView();
+                }
+            }
+        }
+
+        private void btnRemoveFile_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in listView1.SelectedItems)
+            {
+                FileInfo fileInfo = new(@$"{lvi.Text}\{lvi.SubItems[1].Text}");
+
+                _converter.RemoveFromQueue(fileInfo);
+
+                UpdateView();
+            }
         }
     }
 }

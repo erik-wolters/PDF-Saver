@@ -19,7 +19,7 @@ namespace PDFSaverLibrary
         public event QueueUpdatedEventHandler QueueUpdated;
         public event ConvertedEventHandler Converted;
 
-        private readonly List<FileInfo> _queue;
+        private readonly List<string> _queue;
         private string _outputDir;
         private Word.Application _wordApp;
         private Word.Document _wordDoc;
@@ -41,9 +41,11 @@ namespace PDFSaverLibrary
             }
                 
 
-            foreach(FileInfo file in _queue)
+            foreach(string file in _queue)
             {
-                if (!File.Exists(file.FullName) || file.Name.StartsWith("~"))
+                FileInfo fileInfo = new(file);
+
+                if (!File.Exists(fileInfo.FullName) || fileInfo.Name.StartsWith("~"))
                 {
                     OnConverted(false, "Autosave- en autoherstelbestanden " +
                         "kunnen niet geconverteerd worden.");
@@ -58,10 +60,10 @@ namespace PDFSaverLibrary
                         Visible = false
                     };
 
-                    _wordDoc = _wordApp.Documents.Open(file.FullName);
+                    _wordDoc = _wordApp.Documents.Open(fileInfo.FullName);
 
                     _wordDoc.ExportAsFixedFormat2(
-                        $@"{_outputDir}\{file.Name}.pdf",
+                        $@"{_outputDir}\{fileInfo.Name}.pdf",
                         Word.WdExportFormat.wdExportFormatPDF
                         );
 
@@ -69,7 +71,7 @@ namespace PDFSaverLibrary
                     _wordApp.Quit();
 
                     OnConverted(true,
-                        $"Het document {file.Name} is als pdf opgeslagen");
+                        $"Het document {fileInfo.Name} is als pdf opgeslagen");
                 }
                 catch (Exception e)
                 {
@@ -101,7 +103,9 @@ namespace PDFSaverLibrary
 
         public void AddToQueue(FileInfo file)
         {
-            if(file.Extension != ".docx" ||  file.Extension != ".doc")
+            OnConverted(false, $"Detected file extension: {file.Extension}");
+
+            if(!file.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase) &&  !file.Extension.Equals(".doc", StringComparison.OrdinalIgnoreCase))
             {
                 OnQueueUpdated(false, $"Het bestand {file.Name} kan niet " +
                     $"worden toegevoegd omdat dit geen word bestand is.");
@@ -109,7 +113,7 @@ namespace PDFSaverLibrary
                 return;
             }
 
-            if (_queue.Contains(file))
+            if (_queue.Contains(file.FullName))
             {
                 OnQueueUpdated(false, $"Het bestand: {file.Name}" +
                     " staat al in de queue");
@@ -117,7 +121,7 @@ namespace PDFSaverLibrary
                 return;
             }
 
-            _queue.Add(file);
+            _queue.Add(file.FullName);
             OnQueueUpdated(true, $"Het bestand {file.Name} is toegevoegd " +
                 $"aan de queue");
 
@@ -125,9 +129,9 @@ namespace PDFSaverLibrary
 
         public void RemoveFromQueue(FileInfo file)
         {
-            if(_queue.Contains(file))
+            if(_queue.Contains(file.FullName))
             {
-                _queue.Remove(file);
+                _queue.Remove(file.FullName);
                 OnQueueUpdated(true, $"Het bestand {file.Name} is uit de " +
                     $"queue verwijderd");
             } 
@@ -139,7 +143,7 @@ namespace PDFSaverLibrary
             
         }
 
-        public List<FileInfo> GetQueue() 
+        public List<string> GetQueue() 
         { 
             return _queue; 
         }

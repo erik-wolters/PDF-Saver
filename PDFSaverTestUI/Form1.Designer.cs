@@ -35,6 +35,8 @@
             txtLog = new TextBox();
             txtOutputDir = new TextBox();
             btnBrowse = new Button();
+            btnAddFile = new Button();
+            btnRemoveFile = new Button();
             SuspendLayout();
             // 
             // listView1
@@ -63,11 +65,11 @@
             // 
             // btnTest
             // 
-            btnTest.Location = new Point(12, 12);
+            btnTest.Location = new Point(641, 515);
             btnTest.Name = "btnTest";
             btnTest.Size = new Size(75, 23);
             btnTest.TabIndex = 2;
-            btnTest.Text = "button1";
+            btnTest.Text = "Start";
             btnTest.UseVisualStyleBackColor = true;
             btnTest.Click += btnTest_Click;
             // 
@@ -76,6 +78,8 @@
             txtLog.Location = new Point(12, 305);
             txtLog.Multiline = true;
             txtLog.Name = "txtLog";
+            txtLog.ReadOnly = true;
+            txtLog.ScrollBars = ScrollBars.Vertical;
             txtLog.Size = new Size(704, 198);
             txtLog.TabIndex = 3;
             // 
@@ -84,6 +88,7 @@
             txtOutputDir.Location = new Point(12, 41);
             txtOutputDir.Name = "txtOutputDir";
             txtOutputDir.PlaceholderText = "Uitvoermap";
+            txtOutputDir.ReadOnly = true;
             txtOutputDir.Size = new Size(640, 23);
             txtOutputDir.TabIndex = 4;
             txtOutputDir.TextChanged += txtOutputDir_TextChanged;
@@ -98,11 +103,37 @@
             btnBrowse.UseVisualStyleBackColor = true;
             btnBrowse.Click += btnBrowse_Click;
             // 
+            // btnAddFile
+            // 
+            btnAddFile.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAddFile.ForeColor = Color.DarkGreen;
+            btnAddFile.Location = new Point(12, 12);
+            btnAddFile.Name = "btnAddFile";
+            btnAddFile.Size = new Size(31, 23);
+            btnAddFile.TabIndex = 6;
+            btnAddFile.Text = "+";
+            btnAddFile.UseVisualStyleBackColor = true;
+            btnAddFile.Click += btnAddFile_Click;
+            // 
+            // btnRemoveFile
+            // 
+            btnRemoveFile.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRemoveFile.ForeColor = Color.Red;
+            btnRemoveFile.Location = new Point(49, 12);
+            btnRemoveFile.Name = "btnRemoveFile";
+            btnRemoveFile.Size = new Size(31, 23);
+            btnRemoveFile.TabIndex = 7;
+            btnRemoveFile.Text = "-";
+            btnRemoveFile.UseVisualStyleBackColor = true;
+            btnRemoveFile.Click += btnRemoveFile_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(728, 515);
+            ClientSize = new Size(728, 550);
+            Controls.Add(btnRemoveFile);
+            Controls.Add(btnAddFile);
             Controls.Add(btnBrowse);
             Controls.Add(txtOutputDir);
             Controls.Add(txtLog);
@@ -123,5 +154,7 @@
         private TextBox txtLog;
         private TextBox txtOutputDir;
         private Button btnBrowse;
+        private Button btnAddFile;
+        private Button btnRemoveFile;
     }
 }
