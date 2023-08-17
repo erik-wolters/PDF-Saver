@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDFSaverLibrary
+namespace PDFSaverLibrary.Events
 {
-    public class ConvertResult
+    public class ConverterUpdatedEventArgs : EventArgs
     {
-        public bool IsSuccessFull { get; set; }
+        public bool IsSuccessful { get; set; }
         public string Message { get; set; }
-
-        public ConvertResult()
-        {
-
-        }
     }
 }

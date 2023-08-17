@@ -13,22 +13,15 @@ namespace PDFSaverTestUI
             InitializeComponent();
 
             _converter = new();
-            _converter.Converted += OnConverted;
-            _converter.QueueUpdated += OnQueueUpdated;
+            _converter.ConverterUpdated += OnConverterUpdated;
 
-            listView1.DragDrop += ListView_DragDrop;
-            listView1.DragEnter += ListView_DragEnter;
+            listView1.DragDrop += ListView_DragDrop!;
+            listView1.DragEnter += ListView_DragEnter!;
         }
 
-        private void OnConverted(object sender, ConvertedEventArgs args)
+        private void OnConverterUpdated(object sender, ConverterUpdatedEventArgs args)
         {
-            string status = args.Isssuccessfull ? "Info" : "Error";
-            AddLog($"{status} - {args.Message}");
-        }
-
-        private void OnQueueUpdated(object sender, QueueUpdatedEventArgs args)
-        {
-            string status = args.Issuccessful ? "Info" : "Error";
+            string status = args.IsSuccessful ? "Info" : "Error";
             AddLog($"{status} - {args.Message}");
         }
 
